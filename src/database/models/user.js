@@ -1,17 +1,20 @@
-const User = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
-    id: DataTypes.INTEGER,
-    displayName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    image: DataTypes.STRING,
-  });
-
-  User.associate = (db) => {
-    User.hasMany(db.BlogPosts, { as: 'BlogPosts', foreignKey: 'userId' });
-  }
+const createUser = (sequelize, DataTypes) => {
+    const User = sequelize.define('User', 
+    {
+      id: { 
+        type: DataTypes.INTEGER, allowNull: false, autoIncrement: true,primaryKey: true
+      },
+      displayName: DataTypes.STRING,
+      email:DataTypes.STRING,
+      password: DataTypes.STRING,
+      image: DataTypes.STRING,
+    }, 
+    {
+      tableName: 'Users',
+      timestamps: false,
+    });
 
   return User;
 };
 
-module.exports = User;
+module.exports = createUser;

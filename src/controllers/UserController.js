@@ -15,6 +15,11 @@ const UserController = {
     const users = await usersService.list();
     res.status(200).json(users);
   },
+
+  findById: async (req, res) => {
+    const users = await usersService.findById(req.params.id);
+    res.status(200).json(users);
+  },
 };
 
 module.exports = UserController;

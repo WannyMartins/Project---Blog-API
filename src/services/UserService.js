@@ -58,6 +58,19 @@ const UserService = {
     const users = await model.User.findAll({ attributes: { exclude: ['password'] } });
     return users;
   },
+
+  findById: async (id) => {
+    const user = await model.User.findOne({ attributes: { exclude: ['password'] }, where: { id } });
+
+    if (!user) {
+      const error = new Error('User does not exist');
+      error.name = 'NotFoundError';
+      error.status = 404;
+      throw error;
+    }
+    return user;
+  },
+
 };
 
 module.exports = UserService;

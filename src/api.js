@@ -13,6 +13,7 @@ app.post('/login', LoginController.login);
 app.post('/user', UserController.create);
 
 app.get('/user', validateToken, UserController.list);
+app.get('/user/:id', validateToken, UserController.findById);
 
 app.use(middlewareError);
 

@@ -53,6 +53,11 @@ const UserService = {
 
     return token;
   },
+
+  list: async () => {
+    const users = await model.User.findAll({ attributes: { exclude: ['password'] } });
+    return users;
+  },
 };
 
 module.exports = UserService;

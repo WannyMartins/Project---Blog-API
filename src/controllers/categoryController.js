@@ -14,10 +14,6 @@ const CategoryController = {
     res.status(200).json(Category);
   },
 
-  // findById: async (req, res) => {
-  //   const Category = await categoryServices.findById(req.params.id);
-  //   res.status(200).json(Category);
-  // },
 };
 
 module.exports = CategoryController;

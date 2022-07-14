@@ -2,8 +2,9 @@ const express = require('express');
 const middlewareError = require('./middlewares/middlewareError');
 const validateToken = require('./middlewares/middlewareTokenValidate');
 
-const LoginController = require('./controllers/LoginController');
-const UserController = require('./controllers/UserController');
+const LoginController = require('./controllers/loginController');
+const UserController = require('./controllers/userController');
+const CategoryController = require('./controllers/categoryController');
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.post('/user', UserController.create);
 
 app.get('/user', validateToken, UserController.list);
 app.get('/user/:id', validateToken, UserController.findById);
+
+app.post('/categories', validateToken, CategoryController.create);
 
 app.use(middlewareError);
 

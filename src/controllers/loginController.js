@@ -1,4 +1,4 @@
-const LoginService = require('../services/LoginService');
+const LoginService = require('../services/loginService');
 const jwtService = require('../services/jwtService');
 
 const LoginController = {

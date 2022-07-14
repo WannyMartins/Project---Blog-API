@@ -17,6 +17,7 @@ app.get('/user', validateToken, UserController.list);
 app.get('/user/:id', validateToken, UserController.findById);
 
 app.post('/categories', validateToken, CategoryController.create);
+app.get('/categories', validateToken, CategoryController.list);
 
 app.use(middlewareError);
 

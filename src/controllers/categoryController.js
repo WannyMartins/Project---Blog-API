@@ -9,14 +9,14 @@ const CategoryController = {
     res.status(201).json(category);
   },
 
-  // list: async (req, res) => {
-  //   const users = await categoryServices.list();
-  //   res.status(200).json(users);
-  // },
+  list: async (req, res) => {
+    const Category = await categoryServices.list();
+    res.status(200).json(Category);
+  },
 
   // findById: async (req, res) => {
-  //   const users = await categoryServices.findById(req.params.id);
-  //   res.status(200).json(users);
+  //   const Category = await categoryServices.findById(req.params.id);
+  //   res.status(200).json(Category);
   // },
 };
 

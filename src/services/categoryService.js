@@ -22,5 +22,10 @@ const CategoryService = {
     return user;
   },
 
+  list: async () => {
+    const category = await model.Category.findAll();
+    return category;
+  },
+
 };
 module.exports = CategoryService;

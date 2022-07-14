@@ -1,7 +1,15 @@
-// create: async (req, res) => {
-//   const { email, passwordHash, name, phone } = usersService.validateBody(req.body);
+const usersService = require('../services/UserService');
 
-//   const user = await usersService.create({ email, passwordHash, name, phone });
+const UserController = {
+  create: async (req, res) => {
+    const user = usersService.validateBody(req.body);
 
-//   res.status(201).json(user);
-// },
+    await usersService.emailExist(user.email);
+
+    const token = await usersService.create(user);
+
+    res.status(201).json({ token });
+  },
+};
+
+module.exports = UserController;

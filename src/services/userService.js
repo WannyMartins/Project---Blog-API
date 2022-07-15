@@ -14,7 +14,6 @@ const UserService = {
     const { error, value } = schema.validate(data);
 
     if (error) {
-      error.name = 'ValidationError';
       error.status = 400;
       throw error;
     }
@@ -28,7 +27,6 @@ const UserService = {
 
       if (userEmail) {
         const error = new Error('User already registered');
-        error.name = 'ConflictError';
         error.status = 409;
         throw error;
       }
@@ -42,7 +40,7 @@ const UserService = {
       displayName: displayNamePreenchido,
       email: emailPreenchido, 
       image: imagePreenchido,
-     } = user.dataValues;
+     } = user.toJSON();
 
     const token = jwtService.createToken({
       id,
@@ -64,7 +62,6 @@ const UserService = {
 
     if (!user) {
       const error = new Error('User does not exist');
-      error.name = 'NotFoundError';
       error.status = 404;
       throw error;
     }

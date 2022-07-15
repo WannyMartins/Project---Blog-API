@@ -11,7 +11,10 @@ const createBlogPost = (sequelize, Sequelize) => {
     updated: Sequelize.DATE,
   }, 
   {
-    tableName: 'BlogPost',
+    tableName: 'BlogPosts',
+    createdAt: 'published',
+    updatedAt: 'updated'
+    // https://cursos.alura.com.br/forum/topico-renomear-as-colunas-createdat-e-updatedat-130933
   });
 
   BlogPost.associate = (db) => {

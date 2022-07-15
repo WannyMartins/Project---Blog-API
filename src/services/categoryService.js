@@ -10,7 +10,6 @@ const CategoryService = {
     const { error, value } = schema.validate(data);
 
     if (error) {
-      error.name = 'ValidationError';
       error.status = 400;
       throw error;
     }
@@ -26,6 +25,18 @@ const CategoryService = {
     const category = await model.Category.findAll();
     return category;
   },
+
+  categoryIdExists: async (id) => {
+    const CategoryId = await model.Category.findOne({
+       where: { id },
+     });
+
+     if (!CategoryId) {
+       const error = new Error('"categoryIds" not found');
+       error.status = 400;
+       throw error;
+     }
+ },
 
 };
 module.exports = CategoryService;

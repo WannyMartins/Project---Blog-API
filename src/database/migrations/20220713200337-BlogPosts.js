@@ -25,10 +25,10 @@ module.exports = {
           key: 'id',
         },
       },
-      createdAt: {
+      createdAd: {
         allowNull: false,
         type: Sequelize.DATE,
-        field: 'published'
+        field:'published'
       },
       updatedAt: {
         allowNull: false,

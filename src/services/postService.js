@@ -13,6 +13,7 @@ const PostService = {
     const { error, value } = schema.validate(data);
 
     if (error) {
+      error.message = 'Some required fields are missing';
       error.status = 400;
       throw error;
     }
@@ -20,34 +21,30 @@ const PostService = {
   },
 
   create: async ({ title, content, categoryIds }) => {
-     await categoryIds.map((id) => CategoryService.categoryIdExists(id));
+   const CategoryId = await Promise.all(categoryIds.map(async (id) => {
+    const result = await CategoryService.categoryIdExists(id);
+    return result;
+  }));
+
+  const result = CategoryId.some((id) => id === false);
+  
+    if (result === true) {
+      const error = new Error('"categoryIds" not found');
+      error.status = 400;
+      throw error;
+    }
 
     const post = await models.BlogPost.create({ title, content });
+
+    const { id } = post;
+
+    Promise.all(CategoryId.map((cat) => models.PostCategory.bulkCreate([
+        { postId: id, categoryId: cat },
+      ])));
 
     return post;
   },
 
-  // create: async ({ title, content, categoryIds }) => {
-  //   const categories = await categoryIds.map((id) => CategoryService.categoryIdExists(id));
-
-  //   const post = await models.BlogPosts.create({ title, content, categories });
-
-  //   return post;
-  // },
-
-//  list: async () => {
-//   const posts = await models.BlogPost.findAll({ include: [
-//       { model: models.User, as: 'User', attributes: { exclude: 'password' } },
-//       { model: models.Category, as: 'Category' },
-//     ],
-// });
-//   const postsData = posts.map(({ dataValues }) => dataValues)
-//    .map(({ id, title, content, userId, published, updated, User, Category }) => ({
-//     id, title, content, userId, published, updated, User: User.dataValues, categories: Category,
-//   }));
-
-//   return postsData;
-// },
 };
 
 module.exports = PostService;

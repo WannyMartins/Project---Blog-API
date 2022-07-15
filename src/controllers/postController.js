@@ -9,7 +9,6 @@ const PostController = {
 
   create: async (req, res) => {
      const post = PostService.validateBody(req.body);
-     console.log(req.headers.authorization);
      const userId = await jwt.getUserIdToken(req.headers.authorization);
 
      const posts = await PostService.create(post);

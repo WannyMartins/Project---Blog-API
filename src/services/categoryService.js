@@ -31,11 +31,9 @@ const CategoryService = {
        where: { id },
      });
 
-     if (!CategoryId) {
-       const error = new Error('"categoryIds" not found');
-       error.status = 400;
-       throw error;
-     }
+     if (!CategoryId) return false;
+     
+    return CategoryId.id;
  },
 
 };

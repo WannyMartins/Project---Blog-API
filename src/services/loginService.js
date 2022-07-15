@@ -5,14 +5,13 @@ const jwtService = require('./jwtService');
 const LoginServices = {
   validateBody: (data) => {
     const schema = Joi.object({
-      email: Joi.string().required(),
-      password: Joi.string().required(),
+      email: Joi.string().email().required(),
+      password: Joi.string().min(6).required(),
     });
 
     const { error, value } = schema.validate(data);
 
     if (error) {
-      error.name = 'ValidationError';
       error.message = 'Some required fields are missing';
       error.status = 400;
       throw error;
@@ -27,14 +26,13 @@ const LoginServices = {
 
     if (!user || user.password !== password) {
       const error = new Error('Invalid fields');
-      error.name = 'UnauthorizedError';
       error.status = 400;
       throw error;
     }
 
-    const { id, displayName, email: emailPreenchido, image } = user.dataValues;
+    const { password: passwordNãoJWT, ...objetoJWT } = user.toJSON();
 
-    const token = jwtService.createToken({ id, displayName, emailPreenchido, image });
+    const token = jwtService.createToken(objetoJWT);
 
     return token;
   },

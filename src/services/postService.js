@@ -44,7 +44,7 @@ const PostService = {
 
     return post;
   },
-  
+
   list: async () => {
     const posts = await models.BlogPost.findAll({
       include: [
@@ -53,6 +53,22 @@ const PostService = {
       ],
     });
     return posts;
+  },
+
+  findById: async (id) => {
+    const post = await models.BlogPost.findOne({
+      where: { id },
+      include: [
+        { model: models.User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: models.Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+    if (!post) {
+      const error = new Error('Post does not exist');
+      error.status = 404;
+      throw error;
+    }
+    return post;
   },
 
 };

@@ -22,5 +22,27 @@ const PostController = {
     res.status(200).json(post);
   },  
 
+  update: async (req, res) => {
+    const { id } = req.params;
+    
+    const userId = await jwt.getUserIdToken(req.headers.authorization);
+
+    if (userId !== Number(id)) {
+      const error = new Error('Unauthorized user');
+      error.status = 401;
+      throw error;
+    }
+
+   const validate = await PostService.validateBodyUpdate(req.body);
+
+const { title, content } = validate;
+
+    await PostService.update(id, title, content);
+
+    const post = await PostService.findById(id);
+    
+    res.status(200).json(post);
+  },  
+
 };
 module.exports = PostController;

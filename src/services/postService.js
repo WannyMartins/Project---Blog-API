@@ -20,6 +20,22 @@ const PostService = {
     return value;
   },
 
+  validateBodyUpdate: (data) => {
+    const schema = Joi.object({
+      title: Joi.string().required(),
+      content: Joi.string().required(),
+    });
+
+    const { error, value } = schema.validate(data);
+
+    if (error) {
+      error.message = 'Some required fields are missing';
+      error.status = 400;
+      throw error;
+    }
+    return value;
+  },
+
   create: async ({ title, content, categoryIds }) => {
    const CategoryId = await Promise.all(categoryIds.map(async (id) => {
     const result = await CategoryService.categoryIdExists(id);
@@ -68,6 +84,15 @@ const PostService = {
       error.status = 404;
       throw error;
     }
+    return post;
+  },
+
+  update: async (id, title, content) => {
+    const post = await models.BlogPost.update(
+      { title, content },
+       { where: { id } },
+      );
+
     return post;
   },
 

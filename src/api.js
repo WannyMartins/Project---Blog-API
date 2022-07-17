@@ -20,6 +20,7 @@ app.get('/user/:id', validateToken, UserController.findById);
 app.post('/categories', validateToken, CategoryController.create);
 app.get('/categories', validateToken, CategoryController.list);
 app.post('/post', validateToken, PostController.create);
+app.put('/post/:id', validateToken, PostController.update);
 app.get('/post/:id', validateToken, PostController.findById);
 app.get('/post', validateToken, PostController.list);
 

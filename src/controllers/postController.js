@@ -33,15 +33,33 @@ const PostController = {
       throw error;
     }
 
-   const validate = await PostService.validateBodyUpdate(req.body);
+    const validate = await PostService.validateBodyUpdate(req.body);
 
-const { title, content } = validate;
+    const { title, content } = validate;
 
     await PostService.update(id, title, content);
 
     const post = await PostService.findById(id);
     
     res.status(200).json(post);
+  },  
+
+  delete: async (req, res) => {
+    const { id } = req.params;
+    
+    const userId = await jwt.getUserIdToken(req.headers.authorization);
+    const postExists = await PostService.findById(id);
+
+    const idUserPost = postExists.toJSON().userId;
+ 
+    if (userId !== Number(idUserPost)) {
+      const error = new Error('Unauthorized user');
+      error.status = 401;
+      throw error;
+    }
+ 
+    await PostService.delete(id);
+    res.sendStatus(204);
   },  
 
 };

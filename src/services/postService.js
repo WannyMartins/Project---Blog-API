@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { Op } = require('sequelize');
 const models = require('../database/models');
 const CategoryService = require('./categoryService');
 
@@ -99,6 +100,28 @@ const PostService = {
   delete: async (id) => {
     const post = await models.BlogPost.destroy({ where: { id } });
 
+    return post;
+  },
+
+  search: async (param) => {
+    const post = await models.BlogPost.findAll({
+       where: { 
+        [Op.or]: [
+          { title: { [Op.like]: `%${param}%` } },
+          { content: { [Op.like]: `%${param}%` } },
+        ] },
+       include: [
+         { model: models.User,
+            as: 'user',
+            attributes: {
+           exclude: ['password'], 
+          } },
+         { model: models.Category,
+            as: 'categories', 
+         through: { attributes: [] } },
+       ],
+       // Ideia tirada do Op.like e Op.or do prórpio console.log na proória constante que requeri o sequelize.
+   });
     return post;
   },
 

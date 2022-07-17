@@ -22,6 +22,8 @@ app.post('/categories', validateToken, CategoryController.create);
 app.get('/categories', validateToken, CategoryController.list);
 
 app.post('/post', validateToken, PostController.create);
+app.get('/post/search', validateToken, PostController.search);
+
 app.put('/post/:id', validateToken, PostController.update);
 app.get('/post/:id', validateToken, PostController.findById);
 app.delete('/post/:id', validateToken, PostController.delete);

@@ -1,3 +1,4 @@
+const jwtService = require('../services/jwtService');
 const usersService = require('../services/userService');
 
 const UserController = {
@@ -21,6 +22,13 @@ const UserController = {
     const users = await usersService.findById(id);
     res.status(200).json(users);
   },
+
+  delete: async (req, res) => {
+    const userId = await jwtService.getUserIdToken(req.headers.authorization);
+    await usersService.delete(userId);
+    res.sendStatus(204);
+  },
+
 };
 
 module.exports = UserController;

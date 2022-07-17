@@ -16,6 +16,7 @@ app.post('/user', UserController.create);
 
 app.get('/user', validateToken, UserController.list);
 app.get('/user/:id', validateToken, UserController.findById);
+app.delete('/user/me', validateToken, UserController.delete);
 
 app.post('/categories', validateToken, CategoryController.create);
 app.get('/categories', validateToken, CategoryController.list);
